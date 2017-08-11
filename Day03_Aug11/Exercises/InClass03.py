@@ -5,9 +5,9 @@ print "I raised an exception!"
 try:
 	print b
 except NameError:
-	print "oops name error"	
+	print "oops name error"
 except:
-	pass
+	pass ###continues execution without doing anything
 finally:
 	print "Yes! I did it!"
 
@@ -16,18 +16,18 @@ b='Can I do it?'
 try:
     print b
 except NameError:
-    print "oops name error" 
+    print "oops name error"
 except:
     pass
 finally:
     print "Yes! I did it!"
 
 ####################################
-	
+
 for i in range(1,10):
 	if i==5:
 		print "I found five!"
-		continue
+		continue ### goes back to running the loop
 		print "Here is five!"
 	else:
 		print i
@@ -48,14 +48,14 @@ def Rename(entry):
     		elif entry[-1] == '2':
     			return "%snd" %(entry)
     		elif entry[-1] == '3':
-    			return "%srd" %(entry)  
+    			return "%srd" %(entry)
     		else:
-    			return  "%sth" %(entry)	
+    			return  "%sth" %(entry)
     	else:
-    		return "Please do not enter decimal places." 	
+    		return "Please do not enter decimal places."
     except:
     	return "Please enter an integer."
-    finally: 
+    finally:
     	print "This is a function."
 
 entry = 1
@@ -68,7 +68,7 @@ elif entry[-1] == '1':
 elif entry[-1] == '2':
     print "%snd" %(entry)
 elif entry[-1] == '3':
-    print "%srd" %(entry)  
+    print "%srd" %(entry)
 else:
     print  "%sth" %(entry)
 
@@ -103,12 +103,12 @@ def print_integer(integer):
 print_integer('22')
 
 def print_integer(integer):
-    if type(integer)==int: 
+    if type(integer)==int:
         return "Here is my integer: " + str(integer)
     else:
         raise TypeError, "Enter an integer!"
 print_integer('22')
-                
+
 def print_integer(integer):
     try:
         if integer %1==0:
@@ -118,7 +118,7 @@ def print_integer(integer):
     except:
         raise TypeError, "Enter a number!"
 print_integer('22')
-        
+
 def print_integer(integer):
     try:
         if integer%1==0:
@@ -145,7 +145,7 @@ def print_integer(integer):
     except:
         print "Integers can't have decimals!"
 
-                
+
 def print_integer(integer):
     try:
         if integer %1==0:
@@ -155,19 +155,19 @@ def print_integer(integer):
     except TypeError:
         raise TypeError, "Enter a number!"
     except:
-        raise TypeError, "Integers can't have decimals!"    
+        raise TypeError, "Integers can't have decimals!"
     else:
         return "Here is my integer: " + str(integer)
 
-        
-#Create your own exception      
-class CustomException(Exception): 
+
+#Create your own exception
+class CustomException(Exception):
   def __init__(self, value):
     self.value = value
   def __str__(self):
     return self.value
-    
-    
+
+
 def print_integer(integer):
     try:
         if integer %1==0:
@@ -214,4 +214,3 @@ for n in range(2, 10):
             break
         else:
             print(n, 'is a prime number')
-

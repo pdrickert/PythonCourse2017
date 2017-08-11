@@ -1,0 +1,46 @@
+class Portfolio():
+    def __init__(self, Cash):
+      self.Cash = Cash
+      self.StockDictionary = {}
+      self.OwnedStockDictionary = {}
+      self.MFList = []
+      self.MFDict = {}
+      self.History = []
+
+
+    def addCash(self, NewCash):
+      self.Cash = float(self.Cash) + float(NewCash)
+      self.History.append("You added $ %s. You now have $ %s" %(NewCash, self.Cash))
+      return "You added $ %s. You now have $ %s" %(NewCash, self.Cash)
+
+    def withdrawCash(self, WithdrawlAmount):
+      self.Cash = float(self.Cash) - float(WithdrawlAmount)
+      self.History.append("You withdrew $ %s. You now have $ %s" %(NewCash, self.Cash))
+      return "You withdrew $ %s. You now have $ %s" %(NewCash, self.Cash)
+
+    def Stock(self, price, StockSymbol):
+      self.StockDictionary[StockSymbol]= price
+      return "You Created %s at $ %s" %(StockSymbol, price)
+
+    def buyStock(self, amount, StockSymbol):
+      if self.Cash < float(self.StockDictionary[StockSymbol])* float(amount):
+        return "Insufficient Funds"
+      else:
+        self.OwnedStockDictionary[StockSymbol] = amount
+        self.Cash = self.Cash - float(self.StockDictionary[StockSymbol])* float(amount)
+      return "You bought %s shares of %s. You have $ %s" %(amount, StockSymbol, self.Cash)
+
+    def MutualFund(self, name):
+      self.MFList.append(name)
+      return "You created the Mutual Fund %s" %name
+
+    def buyMutualFund(self, name, amount):
+      if self.Cash < amount:
+        return "Insufficient Funds"
+      else:
+        self.MFDict[name] = amount
+        self.Cash = self.Cash - float(amount)
+      return "You bought %s shares of %s. You have $ %s" %(amount, name, self.Cash)
+
+
+    def buyMutual
