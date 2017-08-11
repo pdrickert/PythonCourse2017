@@ -14,6 +14,7 @@ def shout(txt):
 
 # Name to emaN
 def reverse(txt):
+    try:
         if type(txt) is str:
             if " " in txt:
                 raise Exception, "SpaceError: String cannot have more than one word."
@@ -21,7 +22,12 @@ def reverse(txt):
                 new_txt = txt[::-1]
                 return new_txt
         else:
-            raise Exception, "TypeError: Please enter a string."
+            raise TypeError
+    except TypeError:
+        raise TypeError, "Please enter a string"
+    else:
+        print "Hey this is the end block"
+
 # Hello world! to world! Hello
 
 def reversewords(txt):

@@ -11,7 +11,7 @@ class labtest(unittest.TestCase):
         self.assertEqual(reverse("Name"), "emaN")
         with self.assertRaises(Exception):
             reverse("Hello World")
-        with self.assertRaises(Exception):
+        with self.assertRaises(TypeError):
             reverse(2)
     def test_reversewords(self):
         self.assertEqual(reversewords("Hello world!"), "world! Hello")
@@ -21,6 +21,6 @@ class labtest(unittest.TestCase):
         self.assertEqual(reversewordletters("Hello world!"), "!dlrow olleH")
         with self.assertRaises(Exception):
             reversewordletters(2)
-            
+
 if __name__ == '__main__':
         unittest.main()
