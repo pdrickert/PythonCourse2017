@@ -8,7 +8,7 @@ import time
 #http://docs.tweepy.org/en/v3.2.0/
 #Get access to API
 auth = tweepy.OAuthHandler('your consumer key', 'your consumer secret')
-auth.set_access_token('your access token', 'your access token secret')    
+auth.set_access_token('your access token', 'your access token secret')
 api = tweepy.API(auth)
 
 
@@ -73,7 +73,7 @@ krugmans_followers=[]
 for page in tweepy.Cursor(api.followers_ids, 'NYTimeskrugman').pages(2):
     krugmans_followers.extend(page)
     time.sleep(60)
-    
+
 #Get the ids of 6000 followers
 krugmans_followers=[]
 
@@ -81,6 +81,3 @@ for item in tweepy.Cursor(api.followers_ids, 'NYTimeskrugman').items(10):
 	print item
 	krugmans_followers.append(item)
 	time.sleep(1)
-	
-
-
