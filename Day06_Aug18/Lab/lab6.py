@@ -30,18 +30,43 @@ def PrimesUnder121():
 def OtherLessEfficientPrimeFunction(n):
     Primes = []
     for x in range(1,n):
-        CommonDivisors = []
+        Divisors = []
         for m in range(1, (x-1)):
             if x % m == 0:
-                CommonDivisors.append(m)
+                Divisors.append(m)
             else:
                 pass
-        if len(CommonDivisors) < 2:
+        if len(Divisors) < 2:
             Primes.append(x)
         else:
             pass
     return Primes
 
+
+PrimeList = []
+def RecursivePrime(n):
+    if n> 2:
+        for x in range(1,n):
+            Divisors = []
+            for m in range(1, (x-1)):
+                if x % m == 0:
+                    Divisors.append(m)
+                    if len(Divisors) > 0:
+                        PrimeList.append(x)
+        RecursivePrime(n-1)
+    elif n == 2:
+        PrimeList.append(n)
+        print PrimeList
+
+    RecursivePrime(n)
+## def myFunc(num):
+    ## check base case
+        ## return list
+
+    ## if not, is it prime?
+        ## add to primes list
+
+    ## myFunc(...)
 
 
 
