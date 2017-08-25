@@ -13,10 +13,10 @@ AbsVote = []
 Date = []
 CongRec = []
 
-for j in range(1,2000):
+for j in range(1,1340):
     time.sleep(random.uniform(0,3))
     try:
-        web_address= 'http://www.heinonline.org/HOL/Page?collection=congrec&handle=hein.congrec/cr1230007&type=Text&id=' + str(j)
+        web_address= 'http://www.heinonline.org/HOL/Page?collection=congrec&handle=hein.congrec/cr1250027&type=Text&id=' + str(j)
         web_page = urllib2.urlopen(web_address)
         soup = BeautifulSoup(web_page.read())
         soup.prettify()
@@ -45,6 +45,6 @@ for j in range(1,2000):
                         PresVote.append(1)
                         AbsVote.append(0)
                 else:
-                    pass
+                    print "None on page %s" %j
     except IndexError:
         pass

@@ -1,6 +1,6 @@
-engine = sqlalchemy.create_engine('sqlite:///geog.db', echo=False)
+engine = sqlalchemy.create_engine('sqlite:////Users/patrickrickert/Desktop/geog.db', echo=False)
 
-Base = declarative_base() 
+Base = declarative_base()
 
 # Schemas
 class Region(Base):
@@ -11,24 +11,24 @@ class Region(Base):
   departments = relationship("Department")
 
   def __init__(self, name):
-    self.name = name 
+    self.name = name
 
   def __repr__(self):
-    return "<Region('%s')>" % self.id 
+    return "<Region('%s')>" % self.id
 
 class Department(Base):
   __tablename__ = 'departments'
 
   id = Column(Integer, primary_key=True)
   deptname = Column(String)
-  region_id = Column(Integer, ForeignKey('regions.id')) 
+  region_id = Column(Integer, ForeignKey('regions.id'))
   towns = relationship("Town")
 
   def __init__(self, deptname):
-    self.deptname = deptname 
+    self.deptname = deptname
 
   def __repr__(self):
-    return "<Department('%s')>" % self.id 
+    return "<Department('%s')>" % self.id
 
 class Town(Base):
   __tablename__ = 'towns'
@@ -39,7 +39,7 @@ class Town(Base):
   dept_id = Column(Integer, ForeignKey('departments.id'))
 
   def __init__(self, name, population):
-    self.name = name 
+    self.name = name
     self.population = population
 
   def __repr__(self):
@@ -51,16 +51,16 @@ class Distance(Base):
   id = Column(Integer, primary_key=True)
   towndepart = Column(String, ForeignKey('towns.name'))
   townarrive = Column(String, ForeignKey('towns.name'))
-  # could also use id's 
+  # could also use id's
   distance = Column(Integer)
 
-  td = relationship("Town", 
+  td = relationship("Town",
     primaryjoin= towndepart == Town.name)
-  ta = relationship("Town", 
+  ta = relationship("Town",
     primaryjoin = townarrive == Town.name)
-  
+
   def __init__(self, distance):
-    self.distance = distance 
+    self.distance = distance
 
   def __repr__(self):
     return "<Distance('%s', '%s', '%s')>" % (self.towndepart, self.townarrive, self.distance)
@@ -68,7 +68,7 @@ class Distance(Base):
 
 
 #First time create tables
-Base.metadata.create_all(engine) 
+Base.metadata.create_all(engine)
 
 #Create a session to actually store things in the db
 Session = sessionmaker(bind=engine)
@@ -97,70 +97,100 @@ session.add_all([dept1, dept2, dept3, dept4])
 
 # TODO: Create towns, nested in departments
 
+a = Town('Danbury', 79992)
+dept1.towns.append(a)
+
+b = Town('Chattanooga', 177571)
+dept2.towns.append(b)
+
+c = Town('Jacksonville', 880619)
+dept2.towns.append(c)
+
+d = Town('Tuscaloosa', 99543)
+dept2.towns.append(d)
+
+e = Town('St. Louis', 315685)
+dept3.towns.append(e)
+
+f = Town('Philadelpha', 1568000)
+dept4.towns.append(f)
+
 session.add_all([a,b,c,d,e,f])
 
 ae = Distance(50)
-ae.td, ae.ta = a, e 
+ae.td, ae.ta = a, e
 
 af = Distance(60)
-af.td, af.ta = a, f 
+af.td, af.ta = a, f
 
 bc = Distance(50)
-bc.td, bc.ta = b, c 
+bc.td, bc.ta = b, c
 
 bd = Distance(60)
-bd.td, bd.ta = b, d 
+bd.td, bd.ta = b, d
 
 cb = Distance(50)
-cb.td, cb.ta = c, b 
+cb.td, cb.ta = c, b
 
 db = Distance(60)
-db.td, db.ta = d, b 
+db.td, db.ta = d, b
 
 de = Distance(30)
-de.td, de.ta = d, e 
+de.td, de.ta = d, e
 
 ea = Distance(50)
-ea.td, ea.ta = e, a 
+ea.td, ea.ta = e, a
 
 eb = Distance(60)
-eb.td, eb.ta = e, b 
+eb.td, eb.ta = e, b
 
 ed = Distance(30)
-ed.td, ed.ta = e, d 
+ed.td, ed.ta = e, d
 
 ef = Distance(100)
-ef.td, ef.ta = e, f 
+ef.td, ef.ta = e, f
 
 fa = Distance(60)
-fa.td, fa.ta = f, a 
+fa.td, fa.ta = f, a
 
 session.add_all([ae, af, bc, bd, cb, db, de, ea, eb, ed, ef, fa])
 
 session.commit()
 
-# Some example querying 
+# Some example querying
 for town in session.query(Town).order_by(Town.id):
   print town.name, town.population
 
-# TODO: 
+# TODO:
+for town in session.query(Town).filter(Town.population> 100000).order_by(Town.dept_id):
+      print town.name, town.population, town.dept_id
+
+for distance, town in session.query(Distance, Town).filter(or_(Town.population<80000, Town.population<80000)).filter(or_(Town.name == Distance.townarrive, Town.name == Distance.towndepart)):
+    print distance.towndepart, distance.townarrive
+
+FuncyColdMedina = session.query(func.sum(Town.population))
+FuncyColdMedina = FuncyColdMedina.group_by(Town.dept_id)
+for _res in FuncyColdMedina.all():
+    print _res
+
+
 # 1. Display, by department, the cities having more than 100000 inhabitants.
-# 2. Display the list of all the one-way connections between two cities for which the population of one of the 2 cities is lower than 80000 inhabitants. 
-# 3. Display the number of inhabitants per department (bonus: do it per region as well). 
+# 2. Display the list of all the one-way connections between two cities for which the population of one of the 2 cities is lower than 80000 inhabitants.
+# 3. Display the number of inhabitants per department (bonus: do it per region as well).
 # hint: use func.sum
 
 # Copyright (c) 2014 Matt Dickenson
-# 
+#
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
 # in the Software without restriction, including without limitation the rights
 # to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 # copies of the Software, and to permit persons to whom the Software is
 # furnished to do so, subject to the following conditions:
-# 
+#
 # The above copyright notice and this permission notice shall be included in all
 # copies or substantial portions of the Software.
-# 
+#
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 # IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 # FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
