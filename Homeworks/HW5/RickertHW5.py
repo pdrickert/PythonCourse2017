@@ -28,7 +28,7 @@ class LinkedList():
             newone = self.head
             while newone.next != None:
                 newone = newone.next
-            newone.next
+            newone.next = new_node
             self.size += 1
             return "Node added to list"
 
@@ -121,10 +121,13 @@ class LinkedList():
         print self
 # This is complex at O(n!) because you have to iterate over the entire list and
 # create a new link in each iteration, thus requiring n! calculations
+
     def __str__(self):
-        lists = "%s" %self.head
-        h = self.head
+        linklist = "%s" %self.head
+        new = self.head
         while 'next' in dir(h.next):
-            lists += ",%s" %(h.next)
-            h=h.next
-        return lists
+            linklist += ", %s" %(h.next)
+            new = new.next
+        return linklist
+
+## This is complexity O(n) because it just has to go through the list
